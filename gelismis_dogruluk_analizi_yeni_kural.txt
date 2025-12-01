@@ -1,0 +1,120 @@
+{
+  "summary": {
+    "total_reviews": 200,
+    "total_models": 7,
+    "new_rule": "Zero note extraction = 0 points",
+    "metrics": {
+      "exact_match": "Binary accuracy (correct/incorrect)",
+      "mae": "Mean Absolute Error (lower is better)",
+      "rmse": "Root Mean Square Error (lower is better)",
+      "weighted_accuracy": "Weighted score with zero-note penalty (higher is better)"
+    }
+  },
+  "models": {
+    "gpt-4o-mini": {
+      "exact_match_accuracy": 82.0,
+      "exact_matches": 164,
+      "mae": 0.225,
+      "rmse": 0.561,
+      "weighted_accuracy": 93.38,
+      "zero_note_count": 4,
+      "error_distribution": {
+        "0_errors": 164,
+        "1_error": 27,
+        "2_errors": 9,
+        "3_errors": 0,
+        "4plus_errors": 0
+      }
+    },
+    "gpt-oss-20b": {
+      "exact_match_accuracy": 82.0,
+      "exact_matches": 164,
+      "mae": 0.22,
+      "rmse": 0.548,
+      "weighted_accuracy": 94.25,
+      "zero_note_count": 1,
+      "error_distribution": {
+        "0_errors": 164,
+        "1_error": 28,
+        "2_errors": 8,
+        "3_errors": 0,
+        "4plus_errors": 0
+      }
+    },
+    "gpt-oss-120b": {
+      "exact_match_accuracy": 81.0,
+      "exact_matches": 162,
+      "mae": 0.24,
+      "rmse": 0.583,
+      "weighted_accuracy": 93.75,
+      "zero_note_count": 1,
+      "error_distribution": {
+        "0_errors": 162,
+        "1_error": 28,
+        "2_errors": 10,
+        "3_errors": 0,
+        "4plus_errors": 0
+      }
+    },
+    "kimi-k2-instruct-0905": {
+      "exact_match_accuracy": 84.5,
+      "exact_matches": 169,
+      "mae": 0.2,
+      "rmse": 0.539,
+      "weighted_accuracy": 94.75,
+      "zero_note_count": 1,
+      "error_distribution": {
+        "0_errors": 169,
+        "1_error": 22,
+        "2_errors": 9,
+        "3_errors": 0,
+        "4plus_errors": 0
+      }
+    },
+    "llama-3.3-70b": {
+      "exact_match_accuracy": 85.5,
+      "exact_matches": 171,
+      "mae": 0.18,
+      "rmse": 0.5,
+      "weighted_accuracy": 95.25,
+      "zero_note_count": 1,
+      "error_distribution": {
+        "0_errors": 171,
+        "1_error": 22,
+        "2_errors": 7,
+        "3_errors": 0,
+        "4plus_errors": 0
+      }
+    },
+    "llama-4-scout": {
+      "exact_match_accuracy": 77.0,
+      "exact_matches": 154,
+      "mae": 0.295,
+      "rmse": 0.66,
+      "weighted_accuracy": 92.38,
+      "zero_note_count": 1,
+      "error_distribution": {
+        "0_errors": 154,
+        "1_error": 34,
+        "2_errors": 11,
+        "3_errors": 1,
+        "4plus_errors": 0
+      }
+    },
+    "qwen3-32b": {
+      "exact_match_accuracy": 79.0,
+      "exact_matches": 158,
+      "mae": 0.38,
+      "rmse": 0.883,
+      "weighted_accuracy": 85.88,
+      "zero_note_count": 21,
+      "error_distribution": {
+        "0_errors": 158,
+        "1_error": 14,
+        "2_errors": 22,
+        "3_errors": 6,
+        "4plus_errors": 0
+      }
+    }
+  }
+}

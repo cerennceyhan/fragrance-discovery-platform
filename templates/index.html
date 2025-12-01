@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragrance Discovery Platform | AI-Powered Fragrance Recommendation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body { 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  /* Header / Navigation */
+  .header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  
+  .nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: -0.5px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+  }
+  
+  .nav-links a {
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  .nav-links a:hover {
+    color: #2563eb;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+  
+  .hero p {
+    font-size: 20px;
+    opacity: 0.95;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Search Section */
+  .search-section {
+    background: #ffffff;
+    padding: 50px 0;
+    width: 100%;
+  }
+  
+  .search-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  
+  .search-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  
+  .search-header h2 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .search-header p {
+    color: #6b7280;
+    font-size: 16px;
+  }
+  
+  textarea { 
+    width: 100%;
+    height: 140px;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #e5e7eb;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    line-height: 1.6;
+  }
+  
+  textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+  
+  textarea::placeholder {
+    color: #9ca3af;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  button { 
+    padding: 16px 40px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    letter-spacing: 0.3px;
+  }
+  
+  button:hover { 
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  /* Results Container - TAM GENİŞLİK */
+  .results-wrapper {
+    width: 100%;
+    margin-top: 50px;
+  }
+  
+  .notes-section-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  
+  .notes-section {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 35px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+    border: 1px solid #bfdbfe;
+  }
+  
+  .notes-section h3 {
+    color: #1e40af;
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  .notes-section p {
+    color: #1e40af;
+    font-size: 17px;
+    line-height: 1.8;
+    font-weight: 500;
+  }
+  
+  .results-header {
+    max-width: 1400px;
+    margin: 0 auto 30px auto;
+    padding: 0 40px;
+    text-align: center;
+  }
+  
+  .results-header h3 {
+    font-size: 32px;
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .results-count {
+    color: #6b7280;
+    font-size: 16px;
+  }
+  
+  /* Perfume Cards - TAM GENİŞLİK */
+  .perfume-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    padding: 0 40px;
+  }
+  
+  .perfume-item {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 25px 30px;
+    display: flex;
+    gap: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .perfume-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #2563eb 0%, #3b82f6 100%);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .perfume-item:hover {
+    background: #f9fafb;
+    border-color: #2563eb;
+  }
+  
+  .perfume-item:hover::before {
+    transform: scaleY(1);
+  }
+  
+  .perfume-image {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f1f5ff 100%);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .perfume-image img {
+    max-width: 100%;
+    max-height: 130px;
+    object-fit: contain;
+  }
+  
+  .perfume-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 180px);
+  }
+  
+  .perfume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f3f4f6;
+  }
+  
+  .perfume-title-section {
+    flex: 1;
+  }
+  
+  .perfume-name { 
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 20px;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  
+  .similarity-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .perfume-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .note-row {
+    display: flex;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  
+  .note-label {
+    font-weight: 600;
+    color: #1f2937;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+  
+  .note-value {
+    color: #4b5563;
+    flex: 1;
+  }
+  
+  /* Pagination */
+  .pagination { 
+    margin-top: 40px;
+    text-align: center;
+    padding: 30px 40px;
+  }
+  
+  .pagination button { 
+    margin: 0 6px;
+    padding: 12px 20px;
+    background: #ffffff;
+    color: #4b5563;
+    border: 2px solid #e5e7eb;
+    font-size: 15px;
+    box-shadow: none;
+  }
+  
+  .pagination button:hover {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+  }
+  
+  .pagination button.active { 
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .loading-text {
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  /* Footer */
+  .footer {
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    padding: 50px 40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  
+  .footer p {
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .hero h1 {
+      font-size: 40px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .search-container, .notes-section-wrapper, .results-header, .nav-container {
+      padding: 0 20px;
+    }
+    
+    .perfume-item {
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    .perfume-content {
+      max-width: 100%;
+    }
+    
+    .perfume-image {
+      width: 100%;
+      height: 180px;
+    }
+    
+    .perfume-header {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .search-section {
+      padding: 40px 0;
+    }
+    
+    .hero {
+      padding: 60px 20px;
+    }
+    
+    .hero h1 {
+      font-size: 32px;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    .note-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .note-label {
+      min-width: auto;
+    }
+    
+    .pagination {
+      padding: 30px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="nav-container">
+    <div class="logo">PerfumeAI</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>Special Perfume Recommendations for You</h1>
+    <p>We analyze your perfume notes with artificial intelligence and offer the most suitable options among thousands of perfumes.</p>
+  </div>
+</div>
+
+<div class="search-section">
+  <div class="search-container">
+    <div class="search-header">
+      <h2>Start Discovering Perfume</h2>
+      <p>Write down the notes or perfume style you want</p>
+    </div>
+    
+    <form id="perfumeForm">
+      <textarea id="userComment" placeholder="Example: 'I'm looking for an evening perfume with woody, amber and vanilla notes'"></textarea>
+      <div class="button-container">
+        <button type="submit">🔍 Search Perfume</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="response"></div>
+
+<div class="footer">
+  <p>© 2025 PerfumeAI. All rights reserved.</p>
+</div>
+
+<script>
+let allPerfumes = [];
+let currentPage = 1;
+const itemsPerPage = 10;
+
+document.getElementById("perfumeForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = document.getElementById("userComment").value;
+  
+  // Yükleniyor durumunu göster
+  document.getElementById("response").innerHTML = `
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Perfumes are being analyzed...</div>
+    </div>
+  `;
+  
+  try {
+    const res = await fetch("/analyze_comment", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({text})
+    });
+    
+    const data = await res.json();
+    
+    if (data.perfumes && data.perfumes.length > 0) {
+      allPerfumes = data.perfumes;
+      currentPage = 1;
+      displayPage(data.notes_html);
+    } else {
+      // Hata veya sonuç yoksa sadece reply HTML'ini göster
+      document.getElementById("response").innerHTML = '<div class="notes-section-wrapper"><div class="notes-section">' + data.reply + '</div></div>';
+    }
+  } catch (error) {
+    document.getElementById("response").innerHTML = '<div class="notes-section-wrapper"><div class="notes-section"><h3>Bağlantı Hatası</h3><p>Sunucuya erişilemedi veya bir hata oluştu.</p></div></div>';
+    console.error('Fetch error:', error);
+  }
+});
+
+function displayPage(notesHtml) {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPerfumes = allPerfumes.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(allPerfumes.length / itemsPerPage);
+  
+  let html = '<div class="results-wrapper">';
+  html += '<div class="notes-section-wrapper"><div class="notes-section">' + notesHtml + '</div></div>';
+  
+  html += '<div class="results-header"><h3>Recommended Perfumes</h3><p class="results-count">' + allPerfumes.length + ' perfume found. </p></div>';
+  
+  html += '<div class="perfume-list">';
+  currentPerfumes.forEach(perfume => {
+    html += perfume;
+  });
+  html += '</div>';
+  
+  if (totalPages > 1) {
+    html += '<div class="pagination">';
+    
+    // Önceki butonu
+    if (currentPage > 1) {
+      html += '<button onclick="changePage(' + (currentPage - 1) + ')">← Back</button>';
+    }
+    
+    // Sayfa numaraları - Akıllı gösterim
+    const pageNumbers = getPageNumbers(currentPage, totalPages);
+    pageNumbers.forEach(page => {
+      if (page === '...') {
+        html += '<span style="padding: 12px 10px; color: #9ca3af;">...</span>';
+      } else {
+        const activeClass = page === currentPage ? 'active' : '';
+        html += '<button class="' + activeClass + '" onclick="changePage(' + page + ')">' + page + '</button>';
+      }
+    });
+    
+    // Sonraki butonu
+    if (currentPage < totalPages) {
+      html += '<button onclick="changePage(' + (currentPage + 1) + ')">Next →</button>';
+    }
+    
+    html += '</div>';
+  }
+  
+  html += '</div>';
+  
+  document.getElementById("response").innerHTML = html;
+}
+
+function changePage(page) {
+  currentPage = page;
+  // Sayfayı yukarı kaydır
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  // Önceki nota bilgisini al ve sayfayı yeniden çiz
+  const notesSection = document.querySelector('.notes-section');
+  const notesHtmlContent = notesSection ? notesSection.innerHTML : '';
+  displayPage(notesHtmlContent);
+}
+
+// Akıllı sayfa numaraları oluştur
+function getPageNumbers(current, total) {
+  const pages = [];
+  const delta = 2; // Her iki yanda kaç sayfa gösterilecek
+  
+  if (total <= 7) {
+    // Az sayfa varsa hepsini göster
+    for (let i = 1; i <= total; i++) {
+      pages.push(i);
+    }
+  } else {
+    // İlk sayfa her zaman
+    pages.push(1);
+    
+    // Ortadaki sayfalar
+    let start = Math.max(2, current - delta);
+    let end = Math.min(total - 1, current + delta);
+    
+    // Başta ... ekle
+    if (start > 2) {
+      pages.push('...');
+    }
+    
+    // Ortadaki sayfa numaraları
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    
+    // Sonda ... ekle
+    if (end < total - 1) {
+      pages.push('...');
+    }
+    
+    // Son sayfa her zaman
+    pages.push(total);
+  }
+  
+  return pages;
+}
+</script>
+</body>
+</html>

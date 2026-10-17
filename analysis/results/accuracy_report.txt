@@ -1,0 +1,204 @@
+==============================================================================================================
+GELİŞMİŞ MODEL DOĞRULUK ANALİZİ - HATA MESAFESİ DAHİL
+🎯 YENİ KURAL: 0 NOTA ÇIKARIMI = 0 PUAN
+==============================================================================================================
+
+📊 METRİK AÇIKLAMALARI
+--------------------------------------------------------------------------------------------------------------
+1️⃣  EXACT MATCH ACCURACY (Tam Eşleşme Doğruluğu)
+    → Model çıkardığı nota sayısı = Gerçek nota sayısı
+    → İkili (binary) metrik: Ya doğru ya yanlış
+    → Yanlışın büyüklüğünü dikkate almaz
+
+2️⃣  MAE (Mean Absolute Error - Ortalama Mutlak Hata)
+    → Ortalama hata miktarı
+    → Formül: Σ|gerçek - tahmin| / n
+    → Düşük = İyi, Yüksek = Kötü
+    → Örnek: MAE=0.5 demek ortalama 0.5 nota farkı var
+
+3️⃣  RMSE (Root Mean Square Error - Kök Ortalama Kare Hata)
+    → Büyük hatalara daha fazla ceza veren metrik
+    → Formül: √(Σ(gerçek - tahmin)² / n)
+    → MAE'den yüksekse büyük hatalar var demektir
+
+4️⃣  WEIGHTED ACCURACY (Ağırlıklı Doğruluk Skoru) ⭐ YENİ KURAL
+    → Hata mesafesine göre puanlama sistemi:
+       • Model 0 nota çıkardı        = 0 puan ❌ (YENİ!)
+       • 0 hata (tam doğru)          = 100 puan ✅
+       • 1 hata (1 nota fark)        = 75 puan
+       • 2 hata (2 nota fark)        = 50 puan
+       • 3 hata (3 nota fark)        = 25 puan
+       • 4+ hata (4+ nota fark)      = 0 puan ❌
+    → Yüksek = İyi performans
+
+⚠️  ÖNEMLİ: 0 nota çıkarımı artık otomatik olarak 0 puan alıyor!
+    Örnek: Gerçekte 1 nota var, model 0 çıkardı → 0 puan (75 değil)
+
+==============================================================================================================
+SIRALAMALAR
+==============================================================================================================
+
+🎯 EXACT MATCH ACCURACY SIRALAMA
+--------------------------------------------------------------------------------------------------------------
+Sıra   Model                          Doğru/Toplam    Exact Acc.     
+
+--------------------------------------------------------------------------------------------------------------
+🥇      llama-3.3-70b                  171/200      85.50%
+🥈      kimi-k2-instruct-0905          169/200      84.50%
+🥉      gpt-4o-mini                    164/200      82.00%
+4.     gpt-oss-20b                    164/200      82.00%
+5.     gpt-oss-120b                   162/200      81.00%
+6.     qwen3-32b                      158/200      79.00%
+7.     llama-4-scout                  154/200      77.00%
+
+📉 MAE (ORTALAMA HATA) SIRALAMA - Düşük İyi
+--------------------------------------------------------------------------------------------------------------
+Sıra   Model                          MAE             Açıklama                                          
+
+--------------------------------------------------------------------------------------------------------------
+🥇      llama-3.3-70b                  0.180           Ortalama 0.180 nota hata yapıyor
+🥈      kimi-k2-instruct-0905          0.200           Ortalama 0.200 nota hata yapıyor
+🥉      gpt-oss-20b                    0.220           Ortalama 0.220 nota hata yapıyor
+4.     gpt-4o-mini                    0.225           Ortalama 0.225 nota hata yapıyor
+5.     gpt-oss-120b                   0.240           Ortalama 0.240 nota hata yapıyor
+6.     llama-4-scout                  0.295           Ortalama 0.295 nota hata yapıyor
+7.     qwen3-32b                      0.380           Ortalama 0.380 nota hata yapıyor
+
+📉 RMSE SIRALAMA - Düşük İyi
+--------------------------------------------------------------------------------------------------------------
+Sıra   Model                          RMSE            MAE ile Fark        
+
+--------------------------------------------------------------------------------------------------------------
+🥇      llama-3.3-70b                  0.500           +0.320
+🥈      kimi-k2-instruct-0905          0.539           +0.339
+🥉      gpt-oss-20b                    0.548           +0.328
+4.     gpt-4o-mini                    0.561           +0.336
+5.     gpt-oss-120b                   0.583           +0.343
+6.     llama-4-scout                  0.660           +0.365
+7.     qwen3-32b                      0.883           +0.503
+
+⭐ WEIGHTED ACCURACY SIRALAMA - Yüksek İyi (0 NOTA = 0 PUAN)
+--------------------------------------------------------------------------------------------------------------
+Sıra   Model                          Weighted Score       0 Nota Sayısı       
+
+--------------------------------------------------------------------------------------------------------------
+🥇      llama-3.3-70b                  95.25%              1 kez
+🥈      kimi-k2-instruct-0905          94.75%              1 kez
+🥉      gpt-oss-20b                    94.25%              1 kez
+4.     gpt-oss-120b                   93.75%              1 kez
+5.     gpt-4o-mini                    93.38%              4 kez
+6.     llama-4-scout                  92.38%              1 kez
+7.     qwen3-32b                      85.88%              21 kez
+
+==============================================================================================================
+DETAYLI KARŞILAŞTIRMA TABLOSU
+==============================================================================================================
+
+Model                          Exact Acc    MAE        RMSE       Weighted     0 Nota     Hata: 0|1|2|3|4+         
+
+--------------------------------------------------------------------------------------------------------------
+llama-3.3-70b                  85.50%      0.180      0.500      95.25%      1          171|22|7|0|0
+kimi-k2-instruct-0905          84.50%      0.200      0.539      94.75%      1          169|22|9|0|0
+gpt-oss-20b                    82.00%      0.220      0.548      94.25%      1          164|28|8|0|0
+gpt-oss-120b                   81.00%      0.240      0.583      93.75%      1          162|28|10|0|0
+gpt-4o-mini                    82.00%      0.225      0.561      93.38%      4          164|27|9|0|0
+llama-4-scout                  77.00%      0.295      0.660      92.38%      1          154|34|11|1|0
+qwen3-32b                      79.00%      0.380      0.883      85.88%      21         158|14|22|6|0
+
+==============================================================================================================
+🔍 ÖRNEK SENARYOLAR - Neden 0 Nota = 0 Puan Kuralı Önemli?
+==============================================================================================================
+
+Gerçek: 1 nota olmalı
+
+❌ ESKİ SISTEM (Yanlış):
+  Senaryo: Model → 0 nota çıkardı
+  • Hata: |1-0| = 1
+  • Weighted Score: 75 puan
+  • Sorun: Hiç nota çıkaramayan model 75 puan alıyor!
+
+✅ YENİ SISTEM (Doğru):
+  Senaryo: Model → 0 nota çıkardı
+  • Kontrol: model_value == 0?
+  • Weighted Score: 0 puan
+  • Sonuç: Hiç nota çıkaramayan model 0 puan alır!
+
+--------------------------------------------------------------------------------------------------------------
+
+Gerçek: 4 nota olmalı
+
+Senaryo 1: Model A → 3 nota çıkardı
+  • Hata: |4-3| = 1
+  • Weighted Score: 75 puan
+  • Yorum: İyi performans, sadece 1 nota eksik
+
+Senaryo 2: Model B → 0 nota çıkardı
+  • 0 Nota Kontrolü: Evet → 0 puan
+  • Weighted Score: 0 puan
+  • Yorum: Hiç nota çıkaramadı, başarısız
+
+❗ Model A (3 nota) = 75 puan, Model B (0 nota) = 0 puan → ADIL!
+
+--------------------------------------------------------------------------------------------------------------
+
+==============================================================================================================
+📊 EN İYİ vs EN KÖTÜ MODEL KARŞILAŞTIRMASI
+==============================================================================================================
+
+🏆 EN İYİ MODEL: llama-3.3-70b
+   Exact Match Accuracy: 85.50%
+   MAE (Ortalama Hata): 0.180 nota
+   RMSE: 0.500
+   Weighted Accuracy: 95.25%
+   0 Nota Çıkarım: 1 kez
+   Hata Dağılımı: {0: 171, 1: 22, 2: 7, 3: 0, '4+': 0}
+
+❌ EN KÖTÜ MODEL: qwen3-32b
+   Exact Match Accuracy: 79.00%
+   MAE (Ortalama Hata): 0.380 nota
+   RMSE: 0.883
+   Weighted Accuracy: 85.88%
+   0 Nota Çıkarım: 21 kez
+   Hata Dağılımı: {0: 158, 1: 14, 2: 22, 3: 6, '4+': 0}
+
+📈 PERFORMANS FARKI:
+   Exact Match Farkı: 6.50%
+   MAE Farkı: 0.200 nota
+   Weighted Accuracy Farkı: 9.38%
+   0 Nota Farkı: 20 kez
+
+==============================================================================================================
+🎯 SONUÇ VE ÖNERİLER
+==============================================================================================================
+
+1️⃣  HANGİ METRİK KULLANILMALI?
+
+   • EXACT MATCH: Sadece 'doğru/yanlış' bilgisi istiyorsan
+   • MAE: Ortalama hata miktarını görmek istiyorsan
+   • RMSE: Büyük hataların etkisini görmek istiyorsan
+   • WEIGHTED ACCURACY: Hem doğruluğu hem hata mesafesini dengeli değerlendirmek istiyorsan
+
+   ✅ ÖNERİ: WEIGHTED ACCURACY en kapsamlı metriktir!
+   ✅ YENİ: 0 nota çıkarımı artık adil şekilde cezalandırılıyor
+
+2️⃣  ÜRETİM İÇİN MODEL SEÇİMİ:
+
+   🏆 Weighted Accuracy'ye göre: llama-3.3-70b
+      → En az hata yapan model
+      → Yaptığı hatalar da daha küçük
+      → 0 nota çıkarım: Sadece 1 kez
+
+3️⃣  0 NOTA KURALI ETKİSİ:
+
+   Bu kural özellikle şu durumlarda önemli:
+   • Gerçekte az nota var (1-2 nota)
+   • Model hiç nota çıkaramıyor
+   • Eski sistemde: 1 hata = 75 puan alırdı (yanıltıcı)
+   • Yeni sistemde: 0 nota = 0 puan (adil)
+
+   🔍 Analiz: En kötü model 21 kez 0 nota çıkardı
+            En iyi model 1 kez 0 nota çıkardı
+
+==============================================================================================================
+Rapor Oluşturulma Tarihi: 23 Kasım 2024
+==============================================================================================================

@@ -5,7 +5,7 @@ import os
 
 # Excel dosyasını yükle - GitHub için relative path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-wb = load_workbook(os.path.join(BASE_DIR, 'nota_cikarim_analizi_ilk.xlsx'))
+wb = load_workbook(os.path.join(BASE_DIR, 'model_comparison.xlsx'))
 ws = wb.active
 
 # "Real Notes Count" sütununun indeksini bul
@@ -334,7 +334,7 @@ report.append("Rapor Oluşturulma Tarihi: 23 Kasım 2024")
 report.append("=" * 110)
 
 # Dosyaya kaydet
-output_txt = os.path.join(BASE_DIR, 'gelismis_dogruluk_analizi_yeni_kural.txt')
+output_txt = os.path.join(BASE_DIR, 'results', 'accuracy_report.txt')
 report_text = "\n".join(report)
 with open(output_txt, 'w', encoding='utf-8') as f:
     f.write(report_text)
@@ -372,7 +372,7 @@ json_results = {
     }
 }
 
-output_json = os.path.join(BASE_DIR, 'gelismis_dogruluk_analizi_yeni_kural.json')
+output_json = os.path.join(BASE_DIR, 'results', 'accuracy_report.json')
 with open(output_json, 'w', encoding='utf-8') as f:
     json.dump(json_results, f, ensure_ascii=False, indent=2)
 

@@ -3,12 +3,15 @@ import requests
 import json
 import time
 from datetime import datetime
+from pathlib import Path
 
-# Konfigürasyon
+# Configuration (override with environment variables)
+ROOT = Path(__file__).resolve().parent.parent
 API_URL = os.environ.get("ANALYZE_API_URL", "http://127.0.0.1:5000/analyze_comment")
-REVIEWS_FILE = "reviews.txt"
-MODEL_NAME = "openai/gpt-oss-120b"  # Örnek: "llama-3.1-70b", "mixtral-8x7b", "gemma-7b" vb.
-OUTPUT_FILE = f"analysis_results_{MODEL_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+REVIEWS_FILE = Path(os.environ.get("REVIEWS_FILE", ROOT / "data" / "sample_reviews.txt"))
+# The model name is only used to label the output file; the server decides which model runs.
+MODEL_NAME = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b").replace("/", "_")
+OUTPUT_FILE = ROOT / "analysis" / "results" / f"analysis_results_{MODEL_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
 def extract_perfume_count(response_data):
     """API yanıtından önerilen parfüm sayısını çıkarır"""
@@ -127,12 +130,17 @@ def process_reviews():
         time.sleep(0.5)
     
     # Sonuçları JSON dosyasına kaydet
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     
     print(f"\n✅ Analiz tamamlandı!")
     print(f"📁 Sonuçlar '{OUTPUT_FILE}' dosyasına kaydedildi.")
     
+    if not results:
+        print("Analiz edilecek yorum bulunamadı.")
+        return
+
     # Özet istatistikler
     print("\n" + "="*50)
     print("📊 ÖZET İSTATİSTİKLER")

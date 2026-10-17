@@ -1,114 +1,83 @@
 # 🌸 Fragrance Discovery Platform
 
-AI-powered perfume recommendation system. Analyzes user preferences and suggests the most suitable perfumes from the database.
+**[English](#english) | [Türkçe](#türkçe)**
 
-## 📝 About the Project
+## English
 
-This project allows users to describe the perfume notes they're looking for in natural language and find the most suitable perfumes through artificial intelligence.
+AI-powered perfume recommendation system. Describe the scent you like in natural language; the app extracts perfume notes with an LLM (Groq) and ranks the perfumes in a local database by how many of those notes they contain.
 
-**Example:** "I want a perfume with fresh citrus notes for summer" → The system extracts the notes and recommends matching perfumes from the database.
+**Example:** "I love dry vetiver with warm, creamy sandalwood" → notes: `vetiver`, `sandalwood` → matching perfumes with the matched notes highlighted.
 
-## 🚀 Installation and Running
-
-### 1. Install Required Libraries
-
-### 2. Get Groq API Key
-
-- Go to [Groq Console](https://console.groq.com)
-- Create a free account
-- Copy your API key
-- Set it as an environment variable: `export GROQ_API_KEY=your_key`
-
-### 3. Add Database File
-
-Place the `perfume_database_20250904_201308.json` file in the project root directory.
-
-### 4. Start the Application
+### Quick start
 
 ```bash
-python app.py
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env        # then put your Groq API key in .env
+python run.py               # http://127.0.0.1:5000
 ```
 
-### 5. Open in Your Browser
+Get a free API key from the [Groq Console](https://console.groq.com).
+
+### Configuration (`.env` or environment variables)
+
+| Variable | Default | Description |
+|---|---|---|
+| `GROQ_API_KEY` | – | Groq API key (required for analysis) |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` | model used for note extraction |
+| `SECRET_KEY` | dev value | set a real value in production |
+| `FLASK_DEBUG` | `true` | set `false` in production |
+| `PERFUME_DATABASE_PATH` | `data/perfumes.json` | alternative perfume database |
+
+### Project layout
 
 ```
-http://127.0.0.1:5000
+perfume_finder/
+├── __init__.py     # create_app()
+├── config.py       # settings from environment
+├── routes.py       # / and /analyze_comment
+├── llm.py          # Groq note extraction
+├── matching.py     # database loading + similarity
+├── rendering.py    # (escaped) HTML fragments for the UI
+├── templates/      # index.html
+└── static/
+data/               # perfumes.json, sample_reviews.txt
+analysis/           # model accuracy comparison (xlsx -> reports in results/)
+scripts/            # batch_analyze.py – run the sample reviews against a running server
+tests/              # pytest suite
+run.py              # development server
 ```
 
-## 🛠️ Technologies Used
-
-- **Backend:** Flask (Python)
-- **AI:** Groq API (qwen/qwen3-32b model)
-- **Frontend:** HTML, CSS, JavaScript
-- **Database:** JSON
-
-## ⚙️ Features
-
-- Note extraction using natural language processing
-- Intelligent matching algorithm
-- Similarity scoring
-- Performance optimization with pagination
-- Modern and user-friendly interface
-
-## 👥 Development Team
-
-- [@cerennceyhan](https://github.com/cerennceyhan)
-- [@ilaydabalal](https://github.com/ilaydabalal)
-
-# 🌸 Fragrance Discovery Platform
-
-Yapay zeka destekli parfüm öneri sistemi. Kullanıcının tercihlerini analiz eder ve veritabanından en uygun parfümleri önerir.
-
-## 📝 Proje Hakkında
-
-Bu proje, kullanıcıların aradıkları parfüm notalarını doğal dille yazabilmelerini ve yapay zeka aracılığıyla en uygun parfümleri bulmalarını sağlar.
-
-**Örnek:** "Yaz için ferah narenciye notaları olan bir parfüm istiyorum" → Sistem notaları çıkarır ve veritabanından eşleşen parfümleri önerir.
-
-## 🚀 Kurulum ve Çalıştırma
-
-### 1. Gerekli Kütüphaneleri Yükleyin
-
-### 2. Groq API Anahtarı Alın
-
-- [Groq Console](https://console.groq.com) adresine gidin
-- Ücretsiz hesap oluşturun
-- API anahtarınızı kopyalayın
-- Ortam değişkeni olarak tanımlayın: `export GROQ_API_KEY=anahtarınız`
-
-### 3. Veritabanı Dosyasını Ekleyin
-
-`perfume_database_20250904_201308.json` dosyasını proje ana dizinine koyun.
-
-### 4. Uygulamayı Başlatın
+### Scripts
 
 ```bash
-python app.py
+python run.py                          # start the web app
+python scripts/batch_analyze.py        # send data/sample_reviews.txt to the running app
+python analysis/accuracy_analysis.py   # recompute model accuracy reports
+pip install -r requirements-dev.txt && pytest
 ```
 
-### 5. Tarayıcınızda Açın
+### Tech
 
+Flask · Groq API · vanilla HTML/CSS/JS · JSON database
+
+### Team
+
+[@cerennceyhan](https://github.com/cerennceyhan) · [@ilaydabalal](https://github.com/ilaydabalal)
+
+---
+
+## Türkçe
+
+Yapay zeka destekli parfüm öneri sistemi. Sevdiğiniz kokuyu doğal dille anlatırsınız; uygulama Groq üzerinden bir LLM ile nota çıkarır ve yerel veritabanındaki parfümleri bu notalarla eşleşme oranına göre sıralar.
+
+### Hızlı başlangıç
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env        # .env içine Groq API anahtarınızı yazın
+python run.py               # http://127.0.0.1:5000
 ```
-http://127.0.0.1:5000
-```
 
-
-## 🛠️ Kullanılan Teknolojiler
-
-- **Backend:** Flask (Python)
-- **AI:** Groq API (qwen/qwen3-32b model)
-- **Frontend:** HTML, CSS, JavaScript
-- **Veritabanı:** JSON
-
-## ⚙️ Özellikler
-
-- Doğal dil işleme ile nota çıkarımı
-- Akıllı eşleştirme algoritması
-- Benzerlik skorlaması
-- Sayfalama ile performans optimizasyonu
-- Modern ve kullanıcı dostu arayüz
-
-## 👥 Geliştirici Ekibi
-
-- [@cerennceyhan](https://github.com/cerennceyhan)
-- [@ilaydabalal](https://github.com/ilaydabalal)
+API anahtarını [Groq Console](https://console.groq.com) üzerinden ücretsiz alabilirsiniz. Ayarların tablosu yukarıdadır; testler için `pip install -r requirements-dev.txt && pytest`.

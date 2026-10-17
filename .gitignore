@@ -1,49 +1,20 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-env/
+.venv/
 venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
+.pytest_cache/
 *.egg-info/
-.installed.cfg
-*.egg
 
-# Flask
-instance/
-.webassets-cache
+# Secrets
+.env
 
-# IDEs
+# IDEs / OS
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Environment variables
-.env
-
-# Analysis results
-analysis_results_*.json
-
-# Reviews file
-reviews.txt
-
+# Batch run outputs (the committed accuracy_report.* files are kept)
+analysis/results/analysis_results_*.json

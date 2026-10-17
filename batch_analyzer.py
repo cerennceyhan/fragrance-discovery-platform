@@ -1,10 +1,11 @@
+import os
 import requests
 import json
 import time
 from datetime import datetime
 
 # Konfigürasyon
-API_URL = "http://127.0.0.1:5000/analyze_comment"
+API_URL = os.environ.get("ANALYZE_API_URL", "http://127.0.0.1:5000/analyze_comment")
 REVIEWS_FILE = "reviews.txt"
 MODEL_NAME = "openai/gpt-oss-120b"  # Örnek: "llama-3.1-70b", "mixtral-8x7b", "gemma-7b" vb.
 OUTPUT_FILE = f"analysis_results_{MODEL_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

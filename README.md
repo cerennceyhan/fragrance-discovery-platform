@@ -17,7 +17,7 @@ This project allows users to describe the perfume notes they're looking for in n
 - Go to [Groq Console](https://console.groq.com)
 - Create a free account
 - Copy your API key
-- Paste it into the `GROQ_API_KEY_VALUE` section in `config.py`
+- Set it as an environment variable: `export GROQ_API_KEY=your_key`
 
 ### 3. Add Database File
 
@@ -74,7 +74,7 @@ Bu proje, kullanıcıların aradıkları parfüm notalarını doğal dille yazab
 - [Groq Console](https://console.groq.com) adresine gidin
 - Ücretsiz hesap oluşturun
 - API anahtarınızı kopyalayın
-- `config.py` dosyasındaki `GROQ_API_KEY_VALUE` kısmına yapıştırın
+- Ortam değişkeni olarak tanımlayın: `export GROQ_API_KEY=anahtarınız`
 
 ### 3. Veritabanı Dosyasını Ekleyin
 
